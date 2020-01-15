@@ -1,0 +1,10 @@
+<%@page content_type="text/html; charset=ISO-8859-1"%>
+
+<%
+	var commentator_name = request.getReqParam("age");
+	var site_comment = request.getReqParam("name");
+
+%>
+You are
+    <%= site_comment %>
+    <%=   commentator_name%>

@@ -1,0 +1,113 @@
+<%@page content_type="text/html; charset=ISO-8859-1"%>
+<%
+var id=request.getReqParam("id");
+var firstname=request.getReqParam("firstname");
+var lastname=request.getReqParam("lastname");
+var date=request.getReqParam("date");
+var starttime=request.getReqParam("starttime");
+var endtime=request.getReqParam("endtime");
+var memo=request.getReqParam("memo");
+
+%>
+
+<%!--
+  var db = new Database("org.postgresql.Driver");
+  db.connect("jdbc:postgresql://127.0.0.1:5432/TenachTimetable", "postgres", "1207");
+   var result = db.executeRetrieval("SELECT * FROM recordemployee");
+
+while(result.next())
+{
+var column_count = result.getColumnCount();
+
+for(var i = 1; i <= column_count; i++)
+{
+    resOut.print(result.getColumnItem(i) + " ");
+} // for(var i = 1; i <= column_count; i++)
+resOut.println("<br />");
+} // while(result.next())
+
+db.disconnect();
+
+--%>
+
+<%= id %>
+<%=  firstname %>
+<%= lastname %>
+<%= date %>
+<%= starttime %>
+<%= endtime %>
+<%= memo %>
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title> Record Page</title>
+
+
+<style>
+body{
+  background-color: rgba(241, 239, 96, 0.75);
+}
+h1{
+  text-shadow: 2px 2px pink;
+}
+tr:hover{
+  background-color: black;
+  color: white;
+  }
+  .Text{
+    text-align:justify;
+    margin:center;
+    width: 165px;
+    padding:10px 0;
+    clear:both;
+  border-width:inherit;
+text-shadow: 2px 1px yellow;}
+text.input{
+  font-size: 15px;
+border: 2px solid;
+}
+
+button{
+padding:12px 20px;
+border-radius: 10px;
+font-size: 15px;
+border-width: 3px;
+
+
+}
+table{
+  text-align: center;
+  background-color: white;
+}
+
+</style>
+
+</head>
+<body>
+  <img src="tenatchLogo.png" style="width:250px;length:50px;margin-left;">
+  <h1>Time Table Record   <button id="record" type="submit" onclick="location.href='timetable_main.nsp';" style="border-color:purple;">BACK TO EDIT</button></h1>
+
+  <table  id="recordTable" border="1" >
+  <tr>
+    <th>ID</th>
+    <th>FirstName</th>
+    <th>LastName</th>
+    <th>Date</th>
+    <th>Start Time</th>
+    <th>End Time</th>
+    <th>Memo</th>
+  </tr>
+
+
+
+
+
+
+
+  </body>
+  </html>

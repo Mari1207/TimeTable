@@ -1,0 +1,58 @@
+<%@page content_type="text/html; charset=utf-8"%>
+
+<div id="text">Text will be here</div>
+<div id="html">HTML will be here</div>
+<div id="xml">XML will be here</div>
+
+<%
+request(
+  'http://www.phpied.com/files/jsoop/content.txt',
+  function (o) {
+    document.getElementById('text').innerHTML =
+      o.responseText;
+  }
+);
+request(
+  'http://www.phpied.com/files/jsoop/content.html',
+  function (o) {
+    document.getElementById('html').innerHTML =
+      o.responseText;
+  }
+);
+request(
+  'http://www.phpied.com/files/jsoop/content.xml',
+  function (o) {
+    document.getElementById('xml').innerHTML =
+      o.responseXML
+       .getElementsByTagName('root')[0]
+       .firstChild
+       .nodeValue;
+  }
+);
+
+request(
+  'http://www.phpied.com/files/jsoop/content.txt',
+  function (o) {
+    document.getElementById('text').innerHTML =
+      o.responseText;
+  }
+);
+request(
+  'http://www.phpied.com/files/jsoop/content.html',
+  function (o) {
+    document.getElementById('html').innerHTML =
+      o.responseText;
+  }
+);
+request(
+  'http://www.phpied.com/files/jsoop/content.xml',
+  function (o) {
+    document.getElementById('xml').innerHTML =
+      o.responseXML
+       .getElementsByTagName('root')[0]
+       .firstChild
+       .nodeValue;
+  }
+);
+
+%>

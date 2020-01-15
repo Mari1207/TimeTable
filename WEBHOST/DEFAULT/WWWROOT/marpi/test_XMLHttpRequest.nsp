@@ -1,0 +1,85 @@
+<%@page content_type="text/html; charset=ISO-8859-1"%>
+
+<%
+  var db = new Database("org.postgresql.Driver");
+  db.connect("jdbc:postgresql://127.0.0.1:5432/TenachTimetable", "postgres", "1207");
+   var result = db.executeRetrieval("SELECT * FROM recordemployee");
+
+while(result.next())
+{
+var column_count = result.getColumnCount();
+
+for(var i = 1; i <= column_count; i++)
+{
+    resOut.print(result.getColumnItem(i) + " ");
+} // for(var i = 1; i <= column_count; i++)
+resOut.println("<br />");
+} // while(result.next())
+
+db.disconnect();
+
+%>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>practice javascript (Sep30~Oct1)</title>
+</head>
+<body>
+<form action="test_XMLHttpRequest2.nsp" method="get">
+Name:<input type="text" name="name">
+Age:<input type="text" name="age">
+<input type="submit" value="SUBMIT">
+</form>
+
+
+<h1 id="title">Title</h1>
+<p id="element1">Element1</p>
+<p id="element2">Element2</p>
+<script>
+var xhr = new XMLHttpRequest();
+xhr.open("post", "somewhere",true);
+xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+xhr.onload = function () {
+    // do something to response
+    console.log(this.responseText);
+};
+xhr.send("user=person&pwd=password&organization=place&requiredkey=key");
+
+
+
+
+
+/*//part1 XMLHttpRequest
+const xhr = new XMLHttpRequest();
+
+
+xhr.onreadystatechange= function(){
+if (xhr.readyState==4){
+  if(xhr.status==200){
+    document.getElementById("element1").textContent=xhr.responseText;
+  }
+  if(xhr.status==404){
+    console.log("File or resource not found");
+  }
+}
+};
+xhr.open("get","test_XMLHttpRequest.html",true);
+xhr.send();
+
+//part2
+(function(){
+var ajax =new XMLHttpRequest();
+ajax.open("get","test_XMLHttpRequest.html",true);
+ajax.send();*/
+
+
+
+
+
+
+</script>
+
+</body>
+</html>

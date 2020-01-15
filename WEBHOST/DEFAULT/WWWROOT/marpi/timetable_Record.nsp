@@ -1,0 +1,319 @@
+<%@page content_type="text/html; charset=utf-8"%>
+<%
+
+var id=request.getReqParam("id");
+var firstname=request.getReqParam("firstname");
+var lastname=request.getReqParam("lastname");
+var date=request.getReqParam("date");
+var starttime=request.getReqParam("starttime");
+var endtime=request.getReqParam("endtime");
+var memo=request.getReqParam("memo");
+
+
+
+// Insert data to DB from first table form
+var db = new Database("org.postgresql.Driver");
+db.connect("jdbc:postgresql://127.0.0.1:5432/TenachTimetable", "postgres", "1207");
+var sql_str = "INSERT INTO recordemployee(id,firstname,lastname,date,starttime,endtime,memo) VALUES(" + id + ",'" + firstname + "','" + lastname + "','" + date + "','" + starttime + "','" + endtime + "','" + memo + "')";
+resOut.println("sql_str: (" + sql_str + ")<br>");
+
+ var result = db.executeCommand(sql_str);
+pageContext.setAttr("result", result)
+resOut.println("error: (" + db.getLastError() + ")<br>");
+
+
+%>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title> Record Page</title>
+
+
+<style>
+body{
+    background-color: rgba(241, 239, 96, 0.75);
+}
+
+h1{
+    text-shadow: 2px 2px pink;
+    font-family:"Times New Roman";
+
+}
+
+tr:hover{
+    background-color: black;
+    color: white;
+  }
+
+.Text2{
+    text-align:justify;
+    margin:center;
+    width: 165px;
+    padding:50px ;
+    clear:both;
+    border-width:inherit;
+    text-shadow: 2px 1px yellow;
+    font-family:"Times New Roman";
+  }
+
+text2.input{
+    font-size: 15px;
+    border: 2px solid;
+}
+
+button{
+    padding:12px 20px;
+    border-radius: 10px;
+    font-size: 15px;
+    border-width: 3px;
+
+
+}
+table{
+    text-align: center;
+    background-color: white;
+}
+
+</style>
+
+</head>
+<body>
+<div class="Logo" style="background:white;">
+  <img src="tenatchLogo.png" style="width:250px;length:50px;margin-left;" >
+</div>
+  <h1>Time Table Record   <button id="record" type="submit" onclick="location.href='timetable_main.nsp';" style="border-color:purple;">BACK</button></h1>
+
+  <div class="Text2" id="text2" >
+    ID:<input type="text" name="rid" id="rid" style="font-size: 15px;" ><br>
+    FirstName:<input type="text" name="rfirstname" id="rfirstname" style="font-size: 15px;"><br>
+    LastName:<input type="text" name="rlastname" id="rlastname" style="font-size: 15px;"><br>
+    Date:<br /><input type="date" name="rdate" id="rdate" style="font-size: 17px;"><br>
+    StartTime:<br />
+
+    <select name="rstarttime" id="rstarttime" style="font-size:15px">
+    <optgroup label="Start Time">
+      <option value="9:30">9:30</option>
+      <option value="10:00">10:00</option>
+      <option value="10:30">10:30</option>
+      <option value="11:00">11:00</option>
+      <option value="11:30">11:30</option>
+      <option value="12:00">12:00</option>
+      <option value="12:30">12:30</option>
+      <option value="13:00">13:00</option>
+      <option value="13:30">13:30</option>
+      <option value="14:00">14:00</option>
+      <option value="14:30">14:30</option>
+      <option value="15:00">15:00</option>
+      <option value="15:ß30">15:30</option>
+      </optgroup>
+    </select><br>
+    EndTime:<br>
+    <select name="rendtime" id="rendtime" style="font-size:15px">
+    <optgroup label="End Time">
+      <option value="12:00">12:00</option>
+      <option value="13:00">13:00</option>
+      <option value="14:00">14:00</option>
+      <option value="15:00">15:00</option>
+      <option value="16:00">16:00</option>
+      <option value="17:00">17:00</option>
+      </optgroup>
+    </select><br>
+
+    Memo:<input type="texterea" name="rmemo" id="rmemo" style="font-size: 15px;"><br>
+<br>
+  </div>
+    <div class="Button">
+    <button id="Add"  onclick="addHtmlTableRow()" style="border-color:red" >ADD</button>
+    <button id="Edit" onclick="edit()" style="border-color:green">EDIT</button>
+    <button id="Delete" onclick="deleteHtmlTableRow()" style="border-color:blue">DELETE</button>
+    <button id="Cancel" onclick="cancel()"style="border-color:orange">CLEAR</button>
+  </div>
+<br>
+
+
+  <table  id="recordTable" border="1" >
+    <tr>
+      <th>ID</th>
+      <th>FirstName</th>
+      <th>LastName</th>
+      <th>Date</th>
+      <th>Start Time</th>
+      <th>End Time</th>
+      <th>Memo</th>
+    </tr>
+
+    <%
+
+    var db = new Database("org.postgresql.Driver");
+    db.connect("jdbc:postgresql://127.0.0.1:5432/TenachTimetable", "postgres", "1207");
+    var result = db.executeRetrieval("SELECT * FROM recordemployee");
+
+    while(result.next())
+    {
+    var column_count = result.getColumnCount();
+
+    resOut.print("<tr>");
+
+    for(var i = 1; i <= column_count; i++)
+    {
+        resOut.print("<th>" + result.getColumnItem(i) + "</th>");
+    } // for(var i = 1; i <= column_count; i++)
+    resOut.println("");
+    //resOut.println("<br />");
+    } // while(result.next())
+
+    resOut.print("</tr>");
+
+    db.disconnect();
+
+
+
+    %>
+
+
+  </table>
+
+
+  <script>
+  'use strict';
+
+  var rIndex=document.getElementById("recordTable");
+  var rtable=document.getElementById("recordTable");
+
+function addHtmlTableRow(){
+  let rrowCount = document.getElementById('recordTable').rows.length;
+  var rfirstName=document.getElementById('rfirstname').value;
+  var rlastName=document.getElementById('rlastname').value;
+  var rdate=document.getElementById('rdate').value;
+  var rstartTime=document.getElementById('rstarttime').value;
+  var rendTime=document.getElementById('rendtime').value;
+  var rmemo=document.getElementById('rmemo').value;
+
+
+
+  var newRow= rtable.insertRow(-1);
+
+  var cell1=newRow.insertCell(0);
+  var cell2=newRow.insertCell(1);
+  var cell3=newRow.insertCell(2);
+  var cell4=newRow.insertCell(3);
+  var cell5=newRow.insertCell(4);
+  var cell6=newRow.insertCell(5);
+  var cell7=newRow.insertCell(6);
+
+  cell1.innerHTML=rrowCount;
+  cell2.innerHTML=rfirstName;
+  cell3.innerHTML=rlastName;
+  cell4.innerHTML=rdate;
+  cell5.innerHTML=rstartTime;
+  cell6.innerHTML=rendTime;
+  cell7.innerHTML=rmemo;
+
+  document.getElementById('rfirstname').value="";
+  document.getElementById('rlastname').value="";
+  document.getElementById('rdate').value="";
+  document.getElementById('rstarttime').value="";
+  document.getElementById('rendtime').value="";
+  document.getElementById('rmemo').value="";
+
+
+  selectedRow();
+
+}
+
+function selectedRow(){
+
+
+  for(var i = 1; i < rtable.rows.length; i++){
+
+    rtable.rows[i].onclick = function(){
+
+      rIndex= this.rowIndex;
+      document.getElementById("rid").value=this.cells[0].innerHTML;
+      document.getElementById("rfirstname").value=this.cells[1].innerHTML;
+      document.getElementById("rlastname").value=this.cells[2].innerHTML;
+      document.getElementById("rdate").value=this.cells[3].innerHTML;
+      document.getElementById("rstarttime").value=this.cells[4].innerHTML;
+      document.getElementById("rendtime").value=this.cells[5].innerHTML;
+      document.getElementById("rmemo").value=this.cells[6].innerHTML;
+
+
+    };
+  }
+}
+selectedRow();
+
+
+
+function edit(){
+
+  var firstName=document.getElementById('rfirstname').value;
+  var lastName=document.getElementById('rlastname').value;
+  var date=document.getElementById('rdate').value;
+  var startTime=document.getElementById('rstarttime').value;
+  var endTime=document.getElementById('rendtime').value;
+  var memo=document.getElementById('rmemo').value;
+
+
+  rtable.rows[rIndex].cells[1].innerHTML=firstName;
+  rtable.rows[rIndex].cells[2].innerHTML=lastName;
+  rtable.rows[rIndex].cells[3].innerHTML=date;
+  rtable.rows[rIndex].cells[4].innerHTML=startTime;
+  rtable.rows[rIndex].cells[5].innerHTML=endTime;
+  rtable.rows[rIndex].cells[6].innerHTML=memo;
+
+}
+
+
+function deleteHtmlTableRow(){
+
+  rtable.deleteRow(rIndex);
+document.getElementById('rid').value="";
+document.getElementById('rfirstname').value="";
+document.getElementById('rlastname').value="";
+document.getElementById('rdate').value="";
+document.getElementById('rstarttime').value="";
+document.getElementById('rendtime').value="";
+document.getElementById('rmemo').value="";
+}
+
+function cancel(){
+document.getElementById('rid').value="";
+document.getElementById('rfirstname').value="";
+document.getElementById('rlastname').value="";
+document.getElementById('rdate').value="";
+document.getElementById('rstarttime').value="";
+document.getElementById('rendtime').value="";
+document.getElementById('rmemo').value="";
+}
+
+
+  </script>
+
+  <script>
+  window.onload = function() {
+    const result = pageContext.getAttr("result")
+    while(result.next())
+    {
+      var table = document.getElementById("recordTable")
+            var newTr = document.createElement("tr");
+            var column_count = result.getColumnCount();
+
+
+            for(var i = 1; i <= column_count; i++)
+          {
+            var newTd = document.createElement("td");
+
+            newTr.appendCild(newTd.appendChild(result.getColumnItem(i)))
+          } // for(var i = 1; i <= column_count; i++)
+            table.appendCild(newTr);
+          } // while(result.next())
+  };
+
+
+  </script>
+
+  </body>
+  </html>

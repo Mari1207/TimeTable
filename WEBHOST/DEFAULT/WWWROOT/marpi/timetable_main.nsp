@@ -1,0 +1,114 @@
+<%@page content_type="text/html; charset=ISO-8859-1"%>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Employee Time Table</title>
+
+
+
+<style>
+
+body{
+  background-color: rgba(241, 239, 96, 0.75);
+}
+h1{
+  text-shadow: 2px 2px pink;
+}
+tr:hover{
+  background-color: black;
+  color: white;
+  }
+  .Text{
+    text-align:justify;
+    margin-left: 50px;
+    width: 165px;
+    padding:10px 0;
+    clear:both;
+  border-width:inherit;
+text-shadow: 2px 1px yellow;}
+text.input{
+  font-size: 15px;
+border: 2px solid;
+}
+
+button{
+padding:12px 20px;
+border-radius: 10px;
+font-size: 15px;
+border-width: 3px;
+
+
+}
+table{
+  text-align: center;
+  background-color: white;
+}
+
+
+</style>
+</head>
+
+<body>
+<div class="Logo" style="background:white">
+<img src="tenatchLogo.png" style="width:250px;length:50px;margin-left;">
+</div>
+<h1>Employee Time Sheet  <button id="record" type="submit" onclick="location.href='timetable_Record.nsp';" style="border-color:purple;">CHECK RECORDS</button></h1>
+
+<form action= "timetable_Record.nsp" method="get" accept-charset=utf-8>
+<div class="Text" id="text" >
+  ID:<input type="text" name="id" id="id" style="font-size: 15px;" ><br>
+  FirstName:<input type="text" name="firstname" id="firstname" style="font-size: 15px;"><br>
+  LastName:<input type="text" name="lastname" id="lastname" style="font-size: 15px;"><br>
+  Date:<br /><input type="date" name="date" id="date" style="font-size: 17px;"><br>
+  StartTime:<br />
+  <select name="starttime" id="startTime" style="font-size:15px">
+  <optgroup label="Start Time">
+    <option value="9:30">9:30</option>
+    <option value="10:00">10:00</option>
+    <option value="10:30">10:30</option>
+    <option value="11:00">11:00</option>
+    <option value="11:30">11:30</option>
+    <option value="12:00">12:00</option>
+    <option value="12:30">12:30</option>
+    <option value="13:00">13:00</option>
+    <option value="13:30">13:30</option>
+    <option value="14:00">14:00</option>
+    <option value="14:30">14:30</option>
+    <option value="15:00">15:00</option>
+    <option value="15:ß30">15:30</option>
+    </optgroup>
+  </select><br>
+  EndTime:<br>
+  <select name="endtime" id="endtime" style="font-size:15px">
+  <optgroup label="End Time">
+    <option value="12:00">12:00</option>
+    <option value="13:00">13:00</option>
+    <option value="14:00">14:00</option>
+    <option value="15:00">15:00</option>
+    <option value="16:00">16:00</option>
+    <option value="17:00">17:00</option>
+    </optgroup>
+  </select><br>
+
+  Memo:<input type="texterea" name="memo" id="memo" style="font-size: 15px;"><br>
+<br>
+<br />
+
+  <div class="Button">
+  <button id="Add"  style="border-color:red" type="submit">ADD THIS RECORD</button>
+</div>
+</form>
+
+
+<br>
+<br />
+
+
+
+
+
+</body>
+</html>

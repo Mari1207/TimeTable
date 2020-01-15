@@ -1,0 +1,21 @@
+<%@page content_type="text/html; charset=ISO-8859-1"%>
+
+<%
+  var db = new Database("org.postgresql.Driver");
+  db.connect("jdbc:postgresql://127.0.0.1:5432/TenachTimetable", "postgres", "1207");
+   var result = db.executeRetrieval("SELECT * FROM recordemployee");
+
+while(result.next())
+{
+var column_count = result.getColumnCount();
+
+for(var i = 1; i <= column_count; i++)
+{
+    resOut.print(result.getColumnItem(i) + " ");
+} // for(var i = 1; i <= column_count; i++)
+resOut.println("<br />");
+} // while(result.next())
+
+db.disconnect();
+
+%>

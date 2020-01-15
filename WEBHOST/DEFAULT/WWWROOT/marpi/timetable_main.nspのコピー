@@ -1,0 +1,264 @@
+<%@page content_type="text/html; charset=ISO-8859-1"%>
+
+<%
+/*var id = getReqMethod("POST","timetable_Record.nsp");
+var firstname;
+var lastname;
+var date;
+var starttime;
+var endtime;
+var memo;
+  var db = new Database("org.postgresql.Driver");
+  db.connect("jdbc:postgresql://127.0.0.1:5432/TenachTimetable", "postgres", "1207");
+  //var result = db.executeRetrieval("INSERT INTO recordemployee VALUES(" + id + "," + firstname + "," + lastname + "," + date + "," + starttime + "," + endtime + "," + memo + ")");
+
+ //resOut.println("Hello World");
+ //resOut.println("Request Method: " + request.getReqMethod());
+ //resOut.println("Name: " + request.getReqParam("firstname"));
+*/
+%>
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Employee Time Table</title>
+
+
+
+<style>
+
+body{
+  background-color: rgba(241, 239, 96, 0.75);
+}
+h1{
+  text-shadow: 2px 2px pink;
+}
+tr:hover{
+  background-color: black;
+  color: white;
+  }
+  .Text{
+    text-align:justify;
+    margin-left: 50px;
+    width: 165px;
+    padding:10px 0;
+    clear:both;
+  border-width:inherit;
+text-shadow: 2px 1px yellow;}
+text.input{
+  font-size: 15px;
+border: 2px solid;
+}
+
+button{
+padding:12px 20px;
+border-radius: 10px;
+font-size: 15px;
+border-width: 3px;
+
+
+}
+table{
+  text-align: center;
+  background-color: white;
+}
+
+
+</style>
+</head>
+
+<body>
+<img src="tenatchLogo.png" style="width:250px;length:50px;margin-left;">
+
+<h1>Employee Time Sheet  <button id="record" type="submit" onclick="location.href='timetable_Record.nsp';" style="border-color:purple;">CHECK RECORD</button></h1>
+
+<form action= "timetable_Record.nsp" method="get" id="timetableform">
+<div class="Text" id="text" >
+  ID:<input type="text" name="id" id="id" style="font-size: 15px;" ><br>
+  FirstName:<input type="text" name="firstname" id="firstname" style="font-size: 15px;"><br>
+  LastName:<input type="text" name="lastname" id="lastname" style="font-size: 15px;"><br>
+  Date:<br /><input type="date" name="date" id="date" style="font-size: 17px;"><br>
+  StartTime:<br />
+  <select name="starttime" id="startTime" style="font-size:15px">
+  <optgroup label="Start Time">
+    <option value="9:30">9:30</option>
+    <option value="10:00">10:00</option>
+    <option value="10:30">10:30</option>
+    <option value="11:00">11:00</option>
+    <option value="11:30">11:30</option>
+    <option value="12:00">12:00</option>
+    <option value="12:30">12:30</option>
+    <option value="13:00">13:00</option>
+    <option value="13:30">13:30</option>
+    <option value="14:00">14:00</option>
+    <option value="14:30">14:30</option>
+    <option value="15:00">15:00</option>
+    <option value="15:30">15:30</option>
+    </optgroup>
+  </select><br>
+  EndTime:<br>
+  <select name="endtime" id="endtime" style="font-size:15px">
+  <optgroup label="End Time">
+    <option value="12:00">12:00</option>
+    <option value="13:00">13:00</option>
+    <option value="14:00">14:00</option>
+    <option value="15:00">15:00</option>
+    <option value="16:00">16:00</option>
+    <option value="17:00">17:00</option>
+    </optgroup>
+  </select><br>
+
+  Memo:<input type="texterea" name="memo" id="memo" style="font-size: 15px;"><br>
+<br>
+<br />
+</div>
+  <div class="Button">
+  <button id="Add" onclick="addHtmlTableRow()" style="border-color:red" type="submit">ADD</button>
+  <button id="Edit" onclick="edit()"style="border-color:green">EDIT</button>
+  <button id="Delete" onclick="deleteHtmlTableRow()" style="border-color:blue">DELETE</button>
+  <button id="Cancel" onclick="cancel()"style="border-color:orange">CLEAR</button>
+</div>
+</form>
+
+
+<br>
+<br />
+
+<table  id="myTable" border="1" >
+<tr>
+  <th>ID</th>
+  <th>FirstName</th>
+  <th>LastName</th>
+  <th>Date</th>
+  <th>Start Time</th>
+  <th>End Time</th>
+  <th>Memo</th>
+</tr>
+
+
+  </table>
+
+
+  <script>
+  'use strict';
+
+  var rIndex=document.getElementById("myTable");
+  var table=document.getElementById("myTable");
+
+function addHtmlTableRow(){
+  var rowCount = document.getElementById('myTable').rows.length;
+  var firstName=document.getElementById('firstname').value;
+  var lastName=document.getElementById('lastname').value;
+  var date=document.getElementById('date').value;
+  var startTime=document.getElementById('starttime').value;
+  var endTime=document.getElementById('endtime').value;
+  var memo=document.getElementById('memo').value;
+
+
+
+  var newRow= table.insertRow(-1);
+
+  var cell1=newRow.insertCell(0);
+  var cell2=newRow.insertCell(1);
+  var cell3=newRow.insertCell(2);
+  var cell4=newRow.insertCell(3);
+  var cell5=newRow.insertCell(4);
+  var cell6=newRow.insertCell(5);
+  var cell7=newRow.insertCell(6);
+
+  cell1.innerHTML=rowCount;
+  cell2.innerHTML=firstName;
+  cell3.innerHTML=lastName;
+  cell4.innerHTML=date;
+  cell5.innerHTML=startTime;
+  cell6.innerHTML=endTime;
+  cell7.innerHTML=memo;
+
+  document.getElementById('firstname').value="";
+  document.getElementById('lastname').value="";
+  document.getElementById('date').value="";
+  document.getElementById('starttime').value="";
+  document.getElementById('endtime').value="";
+  document.getElementById('memo').value="";
+
+
+  selectedRow();
+
+}
+
+function selectedRow(){
+
+
+  for(var i = 1; i < table.rows.length; i++){
+
+    table.rows[i].onclick = function(){
+
+      rIndex= this.rowIndex;
+      document.getElementById("id").value=this.cells[0].innerHTML;
+      document.getElementById("firstname").value=this.cells[1].innerHTML;
+      document.getElementById("lastname").value=this.cells[2].innerHTML;
+      document.getElementById("date").value=this.cells[3].innerHTML;
+      document.getElementById("starttime").value=this.cells[4].innerHTML;
+      document.getElementById("endtime").value=this.cells[5].innerHTML;
+      document.getElementById("memo").value=this.cells[6].innerHTML;
+
+
+    };
+  }
+}
+selectedRow();
+
+
+function edit(){
+
+  var firstName=document.getElementById('firstname').value;
+  var lastName=document.getElementById('lastname').value;
+  var date=document.getElementById('date').value;
+  var startTime=document.getElementById('starttime').value;
+  var endTime=document.getElementById('endtime').value;
+  var memo=document.getElementById('memo').value;
+
+
+  table.rows[rIndex].cells[1].innerHTML=firstName;
+  table.rows[rIndex].cells[2].innerHTML=lastName;
+  table.rows[rIndex].cells[3].innerHTML=date;
+  table.rows[rIndex].cells[4].innerHTML=startTime;
+  table.rows[rIndex].cells[5].innerHTML=endTime;
+  table.rows[rIndex].cells[6].innerHTML=memo;
+
+
+
+}
+
+
+function deleteHtmlTableRow(){
+
+  table.deleteRow(rIndex);
+document.getElementById('id').value="";
+document.getElementById('firstname').value="";
+document.getElementById('lastname').value="";
+document.getElementById('date').value="";
+document.getElementById('starttime').value="";
+document.getElementById('endtime').value="";
+document.getElementById('memo').value="";
+}
+
+function cancel(){
+document.getElementById('id').value="";
+document.getElementById('firstname').value="";
+document.getElementById('lastname').value="";
+document.getElementById('date').value="";
+document.getElementById('starttime').value="";
+document.getElementById('endtime').value="";
+document.getElementById('memo').value="";
+}
+</script>
+
+
+
+</body>
+</html>
